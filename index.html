@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Selection and Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .feedback-section {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Course Selection and Feedback System</h1>
+</header>
+
+<div class="container">
+    <h2>Select Theory Subjects (4 subjects)</h2>
+    <form id="theoryForm">
+        <label for="theory1">Select Theory Subject 1:</label>
+        <select id="theory1">
+            <option>Mathematics</option>
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+            <option>History</option>
+            <option>Geography</option>
+            <option>Economics</option>
+            <option>Political Science</option>
+            <option>English</option>
+            <option>Computer Science</option>
+        </select>
+
+        <label for="theory2">Select Theory Subject 2:</label>
+        <select id="theory2">
+            <!-- Same options as above -->
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+            <option>History</option>
+            <option>Geography</option>
+            <option>Economics</option>
+            <option>Political Science</option>
+            <option>English</option>
+            <option>Computer Science</option>
+        </select>
+
+        <label for="theory3">Select Theory Subject 3:</label>
+        <select id="theory3">
+            <!-- Same options as above -->
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+            <option>History</option>
+            <option>Geography</option>
+            <option>Economics</option>
+            <option>Political Science</option>
+            <option>English</option>
+            <option>Computer Science</option>
+        </select>
+
+        <label for="theory4">Select Theory Subject 4:</label>
+        <select id="theory4">
+            <!-- Same options as above -->
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology</option>
+            <option>History</option>
+            <option>Geography</option>
+            <option>Economics</option>
+            <option>Political Science</option>
+            <option>English</option>
+            <option>Computer Science</option>
+        </select>
+
+        <h2>Select Lab Subjects (2 subjects)</h2>
+
+        <label for="lab1">Select Lab Subject 1:</label>
+        <select id="lab1">
+            <option>Physics Lab</option>
+            <option>Chemistry Lab</option>
+            <option>Biology Lab</option>
+            <option>Computer Science Lab</option>
+            <option>Electronics Lab</option>
+            <option>Mechanical Lab</option>
+            <option>Civil Engineering Lab</option>
+        </select>
+
+        <label for="lab2">Select Lab Subject 2:</label>
+        <select id="lab2">
+            <!-- Same options as above -->
+            <option>Physics Lab</option>
+            <option>Chemistry Lab</option>
+            <option>Biology Lab</option>
+            <option>Computer Science Lab</option>
+            <option>Electronics Lab</option>
+            <option>Mechanical Lab</option>
+            <option>Civil Engineering Lab</option>
+        </select>
+
+        <button type="button" onclick="assignTeachers()">Assign Teachers</button>
+    </form>
+</div>
+
+<div class="container" id="teacherAssignment" style="display:none;">
+    <h2>Assign Teachers</h2>
+    <p>Assign teachers to your selected courses:</p>
+    <div id="courseTeacherSelection"></div>
+    <button type="button" onclick="submitFeedbackForm()">Submit Feedback</button>
+</div>
+
+<div class="container feedback-section" id="feedbackSection" style="display:none;">
+    <h2>Submit Feedback for Assigned Teachers</h2>
+    <form id="feedbackForm">
+        <div id="feedbackFields"></div>
+        <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+    </form>
+</div>
+
+<script>
+    const teachers = [
+        "Dr. John Smith",
+        "Prof. Emma Watson",
+        "Dr. Alan Brown",
+        "Dr. Sarah Lee"
+    ];
+
+    function assignTeachers() {
+        const subjects = [
+            document.getElementById('theory1').value,
+            document.getElementById('theory2').value,
+            document.getElementById('theory3').value,
+            document.getElementById('theory4').value,
+            document.getElementById('lab1').value,
+            document.getElementById('lab2').value,
+        ];
+
+        const courseTeacherSelection = document.getElementById('courseTeacherSelection');
+        courseTeacherSelection.innerHTML = '';
+
+        subjects.forEach(subject => {
+            const selectHTML = `
+                <label for="${subject}">Assign Teacher for ${subject}:</label>
+                <select id="${subject}">
+                    ${teachers.map(teacher => `<option>${teacher}</option>`).join('')}
+                </select>
+            `;
+            courseTeacherSelection.innerHTML += selectHTML;
+        });
+
+        document.getElementById('teacherAssignment').style.display = 'block';
+    }
+
+    function submitFeedbackForm() {
+        const feedbackFields = document.getElementById('feedbackFields');
+        feedbackFields.innerHTML = '';
+
+        teachers.forEach(teacher => {
+            const feedbackHTML = `
+                <label for="${teacher}-feedback">Feedback for ${teacher}:</label>
+                <input type="text" id="${teacher}-feedback" placeholder="Enter feedback for ${teacher}">
+                <label for="${teacher}-rating">Rating for ${teacher} (1-5):</label>
+                <input type="number" id="${teacher}-rating" min="1" max="5">
+            `;
+            feedbackFields.innerHTML += feedbackHTML;
+        });
+
+        document.getElementById('feedbackSection').style.display = 'block';
+    }
+
+    function submitFeedback() {
+        alert("Feedback submitted! Thank you.");
+    }
+</script>
+
+</body>
+</html>
